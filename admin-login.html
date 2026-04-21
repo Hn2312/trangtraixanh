@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập Admin - Trang trại xanh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="admin-login-box">
+        <h2><i class="fas fa-shield-alt"></i> Đăng nhập Admin</h2>
+        
+        <input type="text" id="adminUsername" placeholder="Tên đăng nhập" class="form-input">
+        <input type="password" id="adminPassword" placeholder="Mật khẩu" class="form-input">
+        
+        <button onclick="loginAdmin()" class="btn-auth" style="margin-top:20px;">
+            Đăng nhập Admin
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/admin-auth.js"></script>
+</body>
+</html>

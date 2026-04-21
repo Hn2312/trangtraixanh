@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập / Đăng ký - Trang Trại Xanh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="/images/logo.png" alt="Trang Trại Xanh">
+                <div>
+                    <span class="logo-text">Trang Trại Xanh</span><br>
+                    <small>BIOFARM ENERGY CO., LTD.</small>
+                </div>
+            </div>
+            <div style="text-align:center; line-height:1.3;">
+                <strong>CÔNG TY TNHH TM DV KỸ THUẬT CHĂN NUÔI VÀ NĂNG LƯỢNG</strong><br>
+                <span class="highlight">SINH HỌC NÔNG NĂNG XANH</span>
+            </div>
+            
+            <!-- Auth Button -->
+            <div class="auth-button-container"></div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">TRANG CHỦ</a></li>
+                <li><a href="products.html">SẢN PHẨM</a></li>
+                <li><a href="index.html#about">VỀ CHÚNG TÔI</a></li>
+                <li><a href="index.html#contact">LIÊN HỆ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Auth Section -->
+    <section class="section auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <h2>ĐĂNG NHẬP / ĐĂNG KÝ</h2>
+
+                <!-- Tab -->
+                <div class="auth-tabs">
+                    <div id="tabLogin" class="auth-tab active" onclick="showLogin()">Đăng nhập</div>
+                    <div id="tabRegister" class="auth-tab" onclick="showRegister()">Đăng ký</div>
+                </div>
+
+                <!-- Form Đăng nhập -->
+                <div id="loginForm">
+                    <input id="loginEmail" type="email" placeholder="Email" class="form-input">
+                    <input id="loginPassword" type="password" placeholder="Mật khẩu" class="form-input">
+                    <button onclick="loginUser()" class="btn-auth">Đăng nhập</button>
+                </div>
+
+                <!-- Form Đăng ký -->
+                <div id="registerForm" style="display: none;">
+                    <input id="regFullName" type="text" placeholder="Họ và tên" class="form-input">
+                    <input id="regEmail" type="email" placeholder="Email" class="form-input">
+                    <input id="regPhone" type="tel" placeholder="Số điện thoại" class="form-input">
+                    <input id="regPassword" type="password" placeholder="Mật khẩu (ít nhất 6 ký tự)" class="form-input">
+                    <button onclick="registerUser()" class="btn-auth">Đăng ký tài khoản</button>
+                </div>
+
+                <p class="auth-footer-text">
+                    Quên mật khẩu? <a href="#">Nhấn vào đây</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+
+</body>
+</html>

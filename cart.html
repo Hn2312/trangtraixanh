@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - Trang Trại Xanh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="/images/logo.png" alt="Trang Trại Xanh">
+                <div>
+                    <span class="logo-text">Trang Trại Xanh</span><br>
+                    <small>BIOFARM ENERGY CO., LTD.</small>
+                </div>
+            </div>
+            <div class="auth-button-container"></div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">TRANG CHỦ</a></li>
+                <li><a href="products.html">SẢN PHẨM</a></li>
+                <li><a href="cart.html">GIỎ HÀNG</a></li>
+                <li><a href="order-history.html">LỊCH SỬ ĐẶT HÀNG</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="container">
+            <h2>Giỏ Hàng Của Bạn</h2>
+            
+            <div id="cartContainer"></div>
+
+            <!-- Form điền thông tin nhận hàng -->
+            <div id="checkoutForm" class="checkout-form">
+                <h3>Thông tin nhận hàng</h3>
+                <div class="form-group">
+                    <label>Họ và tên *</label>
+                    <input type="text" id="customerName" placeholder="Nhập họ và tên" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại *</label>
+                    <input type="tel" id="customerPhone" placeholder="Nhập số điện thoại" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ giao hàng *</label>
+                    <textarea id="customerAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng" class="form-input"></textarea>
+                </div>
+
+                <div class="order-total">
+                    <h3>Tổng tiền: <span id="totalAmount" class="total-price">0 VNĐ</span></h3>
+                    <button onclick="submitOrder()" class="btn-auth btn-order-confirm">
+                        Xác nhận đặt hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/cart.js"></script>
+
+</body>
+</html>

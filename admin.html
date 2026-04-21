@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Trang Trại Xanh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <h2><i class="fas fa-cog"></i> Admin Dashboard - Trang Trại Xanh</h2>
+        <div>
+            <span id="adminName" class="admin-name"></span>
+            <button onclick="logoutAdmin()" class="btn-auth">
+                Đăng xuất
+            </button>
+        </div>
+    </div>
+
+    <div class="admin-container">
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div id="tabProducts" class="tab active" onclick="switchTab(1)">Quản lý Sản phẩm</div>
+            <div id="tabOrders" class="tab" onclick="switchTab(2)">Quản lý Đơn hàng</div>
+        </div>
+
+        <!-- ==================== TAB 1: QUẢN LÝ SẢN PHẨM ==================== -->
+        <div id="contentProducts">
+            <!-- Form Thêm / Sửa Sản Phẩm -->
+            <div class="product-form">
+                <h3 id="formTitle">Thêm Sản Phẩm Mới</h3>
+                <input type="hidden" id="editId">
+
+                <div class="form-group">
+                    <label>Tên sản phẩm *</label>
+                    <input type="text" id="prodName" placeholder="Nhập tên sản phẩm" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Danh mục *</label>
+                    <select id="prodCategory" class="form-input"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Giá (VNĐ) *</label>
+                    <input type="number" id="prodPrice" placeholder="Ví dụ: 5600000" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả ngắn</label>
+                    <input type="text" id="prodShortDesc" placeholder="Mô tả ngắn gọn" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả chi tiết</label>
+                    <textarea id="prodDescription" rows="4" placeholder="Chi tiết sản phẩm..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Ảnh sản phẩm</label>
+                    <input type="file" id="prodImageFile" accept="image/*">
+                    <small>Chọn ảnh từ máy tính (jpg, png, webp...)</small>
+                    <div id="imagePreview" class="image-preview">
+                        <img id="previewImg" alt="Preview ảnh">
+                    </div>
+                </div>
+
+                <button onclick="saveProduct()" id="btnSave" class="btn-auth">
+                    <i class="fas fa-save"></i> Lưu sản phẩm
+                </button>
+                <button onclick="resetForm()" class="btn-secondary">
+                    Làm mới
+                </button>
+            </div>
+
+            <!-- Danh sách sản phẩm -->
+            <div class="product-list">
+                <h3>Danh sách sản phẩm</h3>
+                <table id="productTable">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: QUẢN LÝ ĐƠN HÀNG ==================== -->
+        <div id="contentOrders" style="display: none;">
+            <div class="order-list">
+                <h3>Quản lý Đơn hàng</h3>
+                <table id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Khách hàng</th>
+                            <th>SĐT</th>
+                            <th>Địa chỉ</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đặt</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/admin.js"></script>
+
+</body>
+</html>
