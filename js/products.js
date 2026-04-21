@@ -73,9 +73,7 @@ function renderProducts(products) {
                 
                 <div class="product-actions">
                     <button onclick="showProductDetail('${p.id}')" class="btn-detail">Xem chi tiết</button>
-                    <button onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${Number(p.price) || 0}, '${p.image_url || ''}')" class="btn-cart">
-                        Thêm giỏ hàng
-                    </button>
+                    
                 </div>
             </div>
         `;
