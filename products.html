@@ -24,27 +24,12 @@
                 <span class="highlight">SINH HỌC NÔNG NĂNG XANH</span>
             </div>
             
-            <!-- Thanh tìm kiếm + Giỏ hàng + Lịch sử + Auth -->
+            <!-- Thanh tìm kiếm -->
             <div class="header-right">
-                <!-- Thanh tìm kiếm -->
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." class="search-input">
                     <button onclick="searchProducts()" class="search-btn">🔍</button>
                 </div>
-                
-                <!-- Giỏ hàng -->
-                <a href="cart.html" class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cartCount" class="cart-count">0</span>
-                </a>
-                
-                <!-- Lịch sử đặt hàng -->
-                <a href="order-history.html" class="history-icon" title="Lịch sử đặt hàng">
-                    <i class="fas fa-history"></i>
-                </a>
-                
-                <!-- Đăng nhập / Đăng xuất -->
-                <div class="auth-button-container"></div>
             </div>
         </div>
     </header>
@@ -73,19 +58,24 @@
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">×</span>
+            
             <div class="modal-body">
+                <!-- Ảnh bên trái -->
                 <div class="modal-image">
                     <img id="modalImage" src="" alt="Ảnh sản phẩm">
                 </div>
+                
+                <!-- Nội dung bên phải -->
                 <div class="modal-info">
                     <h2 id="modalName"></h2>
                     <p id="modalCategory" class="modal-category"></p>
                     <p id="modalPrice" class="modal-price"></p>
                     <p id="modalDescription" class="modal-desc"></p>
                     
-                    <button onclick="addToCartFromModal()" class="btn-cart-modal">
-                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                    </button>
+                    <!-- Nút Liên hệ mở Zalo -->
+                    <a href="https://zalo.me/0987042718" target="_blank" class="btn-contact-modal">
+                        <i class="fas fa-comments"></i> Liên hệ ngay qua Zalo
+                    </a>
                 </div>
             </div>
         </div>

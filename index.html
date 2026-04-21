@@ -27,9 +27,8 @@
             <div class="header-right">
                 <div class="search-box">
                     <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm...">
-                    <button onclick="searchProducts()" class="search-btn"><i class="fas fa-search"></i></button>
+                    <button onclick="searchAndGo()" class="search-btn"><i class="fas fa-search"></i></button>
                 </div>
-                <!-- Nút Tư vấn ngay mở Zalo -->
                 <a href="https://zalo.me/0987042718" target="_blank" class="btn">Tư vấn ngay</a>
             </div>
         </div>
@@ -43,7 +42,6 @@
                 <li><a href="products.html">SẢN PHẨM</a></li>
                 <li><a href="#services">GIẢI PHÁP</a></li>
                 <li><a href="#about">VỀ CHÚNG TÔI</a></li>
-                <!-- Nút Liên hệ nhảy xuống footer -->
                 <li><a href="#footer">LIÊN HỆ</a></li>
             </ul>
         </div>
@@ -86,46 +84,50 @@
         </div>
     </section>
 
-    <!-- VỀ CHÚNG TÔI - 3 bài -->
+    <!-- SẢN PHẨM NỔI BẬT -->
+    <section class="featured section" style="background:#f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">SẢN PHẨM NỔI BẬT</h2>
+            <div id="featuredGrid" class="product-grid"></div>
+        </div>
+    </section>
+
+    <!-- VỀ CHÚNG TÔI -->
     <section id="about" class="about section">
         <div class="container">
             <h2 class="section-title">VỀ CHÚNG TÔI</h2>
 
-            <!-- Bài 1 -->
             <div class="about-item">
                 <div class="about-image">
                     <img src="/images/hinh-nen.jpg" alt="Trang trại Xanh">
                 </div>
                 <div class="about-text">
                     <h3>Trang Trại Xanh - Biofarm Energy</h3>
-                    <p>Chúng tôi là đơn vị chuyên cung cấp giải pháp chăn nuôi hiện đại và năng lượng sinh học tại Việt Nam. Với nhiều năm kinh nghiệm, chúng tôi mang đến những công nghệ tiên tiến giúp trang trại nâng cao năng suất, giảm chi phí và phát triển bền vững.</p>
+                    <p>Chúng tôi là đơn vị chuyên cung cấp giải pháp chăn nuôi hiện đại và năng lượng sinh học tại Việt Nam.</p>
                     <a href="https://zalo.me/0987042718" target="_blank" class="btn">Tìm hiểu thêm</a>
                 </div>
             </div>
 
-            <!-- Bài 2 -->
             <div class="about-item">
                 <div class="about-image">
                     <img src="/images/congtrinh.jpeg" alt="Sứ mệnh">
                 </div>
                 <div class="about-text">
                     <h3>Sứ mệnh & Tầm nhìn</h3>
-                    <p>Sứ mệnh của Trang Trại Xanh là đồng hành cùng bà con chăn nuôi Việt Nam xây dựng một nền nông nghiệp sạch, hiện đại và thân thiện với môi trường. Chúng tôi hướng tới việc trở thành đối tác tin cậy hàng đầu trong lĩnh vực giải pháp chăn nuôi và năng lượng sinh học.</p>
+                    <p>Sứ mệnh của Trang Trại Xanh là đồng hành cùng bà con chăn nuôi Việt Nam xây dựng nền nông nghiệp sạch và bền vững.</p>
                 </div>
             </div>
 
-            <!-- Bài 3 -->
             <div class="about-item">
                 <div class="about-image">
                     <img src="/images/maymoc.jpeg" alt="Giá trị cốt lõi">
                 </div>
                 <div class="about-text">
                     <h3>Giá trị cốt lõi</h3>
-                    <p>Chúng tôi cam kết mang đến <strong>Chất lượng - Đổi mới - Bền vững</strong>. Mọi giải pháp đều được nghiên cứu kỹ lưỡng, sử dụng công nghệ hiện đại và đảm bảo thân thiện với môi trường, giúp trang trại vận hành hiệu quả và lâu dài.</p>
+                    <p>Chúng tôi cam kết mang đến <strong>Chất lượng - Đổi mới - Bền vững</strong>.</p>
                     <a href="https://zalo.me/0987042718" target="_blank" class="btn">Liên hệ hợp tác</a>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -145,7 +147,7 @@
     </div>
 
     <script>
-        // Hero Slider
+        // Hero Slider (giữ nguyên)
         const slides = [
             '/images/gacon.jpeg',
             '/images/congtrinh.jpeg',
@@ -160,7 +162,6 @@
         function createSlides() {
             heroContainer.innerHTML = '';
             dotsContainer.innerHTML = '';
-            
             slides.forEach((src, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'hero-slide';
@@ -194,9 +195,62 @@
         createSlides();
         setInterval(nextSlide, 4000);
 
+        // Tìm kiếm → chuyển sang trang products.html
         function searchProducts() {
-            alert("Tính năng tìm kiếm đang được phát triển!");
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (keyword) {
+                window.location.href = `products.html?search=${encodeURIComponent(keyword)}`;
+            } else {
+                window.location.href = 'products.html';
+            }
         }
+
+        // Load Sản phẩm nổi bật
+        async function loadFeaturedProducts() {
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*, categories(name)')
+                    .eq('is_available', true)
+                    .limit(8);   // lấy 8 sản phẩm nổi bật
+
+                if (error) throw error;
+
+                const grid = document.getElementById('featuredGrid');
+                grid.innerHTML = '';
+
+                data.forEach(p => {
+                    const priceHTML = p.price 
+                        ? Number(p.price).toLocaleString('vi-VN') + ' VNĐ' 
+                        : '<span style="color:#006400; font-weight:600;">Liên hệ</span>';
+
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <img src="${p.image_url || '/images/default-product.jpg'}" alt="${p.name}">
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <p class="product-price">${priceHTML}</p>
+                            <button onclick="viewProductDetail('${p.id}')" class="btn-detail">Xem chi tiết</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error("Lỗi load sản phẩm nổi bật:", err);
+            }
+        }
+
+        // Chuyển sang trang products.html với ID sản phẩm
+        function viewProductDetail(productId) {
+            window.location.href = `products.html?product=${productId}`;
+        }
+
+        // Khởi chạy
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFeaturedProducts();
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

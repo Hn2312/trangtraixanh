@@ -73,6 +73,7 @@ function setupImagePreview() {
 }
 
 // ==================== LOAD DANH SÁCH SẢN PHẨM ====================
+// ==================== LOAD DANH SÁCH SẢN PHẨM ====================
 async function loadAdminProducts() {
     try {
         const { data, error } = await supabase
@@ -86,12 +87,21 @@ async function loadAdminProducts() {
         tbody.innerHTML = '';
 
         data.forEach(p => {
+            const imageSrc = p.image_url 
+                ? p.image_url 
+                : '/images/default-product.jpg';   // ảnh mặc định
+
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><img src="${p.image_url || '/images/default-product.jpg'}" width="60" style="border-radius:6px;"></td>
+                <td>
+                    <img src="${imageSrc}" 
+                         width="60" 
+                         style="border-radius:6px; object-fit:cover;"
+                         onerror="this.src='https://via.placeholder.com/60x60/006400/ffffff?text=No+Image';">
+                </td>
                 <td>${p.name}</td>
                 <td>${p.categories?.name || '—'}</td>
-                <td>${Number(p.price).toLocaleString('vi-VN')} VNĐ</td>
+                <td>${p.price ? p.price.toLocaleString('vi-VN') + ' VNĐ' : 'Liên hệ'}</td>
                 <td>
                     <button onclick="editProduct('${p.id}')" class="btn-action btn-edit">Sửa</button>
                     <button onclick="deleteProduct('${p.id}')" class="btn-action btn-delete">Xóa</button>
@@ -103,77 +113,94 @@ async function loadAdminProducts() {
         console.error("Lỗi load sản phẩm:", err);
     }
 }
-
-// ==================== LƯU / CẬP NHẬT SẢN PHẨM ====================
+// ==================== HÀM LƯU SẢN PHẨM (CÓ UPLOAD ẢNH) ====================
 async function saveProduct() {
     const name = document.getElementById('prodName').value.trim();
-    const categoryId = document.getElementById('prodCategory').value;
-    const price = parseFloat(document.getElementById('prodPrice').value);
-    const shortDesc = document.getElementById('prodShortDesc').value.trim();
+    const category_id = document.getElementById('prodCategory').value;
+    const price = document.getElementById('prodPrice').value.trim();
+    const short_desc = document.getElementById('prodShortDesc').value.trim();
     const description = document.getElementById('prodDescription').value.trim();
-    const fileInput = document.getElementById('prodImageFile');
+    const editId = document.getElementById('editId').value;
 
-    if (!name || !categoryId || !price) {
-        alert("Vui lòng điền đầy đủ Tên sản phẩm, Danh mục và Giá!");
+    if (!name) {
+        alert("Vui lòng nhập Tên sản phẩm!");
+        return;
+    }
+    if (!category_id) {
+        alert("Vui lòng chọn Danh mục!");
         return;
     }
 
     try {
-        let imageUrl = null;
+        let image_url = null;
 
-        // Upload ảnh nếu có chọn file
-        if (fileInput.files[0]) {
+        // === UPLOAD ẢNH NẾU CÓ CHỌN ===
+        const fileInput = document.getElementById('prodImageFile');
+        if (fileInput.files && fileInput.files[0]) {
             const file = fileInput.files[0];
-            const fileName = `${Date.now()}-${file.name}`;
             
+            // Tạo tên file unique
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+            // Upload lên Supabase Storage (bucket: product-images)
             const { data, error } = await supabase.storage
-                .from('product-images')
-                .upload(fileName, file);
+                .from('product-images')           // ← Tên bucket
+                .upload(fileName, file, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
 
-            if (error) throw error;
-
-            imageUrl = supabase.storage.from('product-images').getPublicUrl(fileName).data.publicUrl;
+            if (error) {
+                console.error("Upload ảnh lỗi:", error);
+                alert("Upload ảnh thất bại: " + error.message);
+            } else {
+                // Lấy URL public của ảnh
+                const { data: publicURL } = supabase.storage
+                    .from('product-images')
+                    .getPublicUrl(fileName);
+                
+                image_url = publicURL.publicUrl;
+                console.log("Ảnh đã upload:", image_url);
+            }
         }
 
+        // Chuẩn bị dữ liệu
         const productData = {
-            name,
-            category_id: categoryId,
-            price,
-            short_desc: shortDesc,
-            description,
-            image_url: imageUrl,
-            is_available: true,
-            is_featured: false
+            name: name,
+            slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+            category_id: category_id,
+            price: price || null,
+            short_desc: short_desc || null,
+            description: description || null,
+            image_url: image_url,
+            updated_at: new Date().toISOString()
         };
 
-        if (editingProductId) {
-            // Cập nhật
-            const { error } = await supabase
+        let result;
+        if (editId) {
+            result = await supabase
                 .from('products')
                 .update(productData)
-                .eq('id', editingProductId);
-            
-            if (error) throw error;
+                .eq('id', editId);
             alert("✅ Cập nhật sản phẩm thành công!");
         } else {
-            // Thêm mới
-            const { error } = await supabase
+            result = await supabase
                 .from('products')
                 .insert([productData]);
-            
-            if (error) throw error;
             alert("✅ Thêm sản phẩm mới thành công!");
         }
+
+        if (result.error) throw result.error;
 
         resetForm();
         loadAdminProducts();
 
-    } catch (err) {
-        console.error(err);
-        alert("Lỗi khi lưu sản phẩm: " + err.message);
+    } catch (error) {
+        console.error("Lỗi khi lưu sản phẩm:", error);
+        alert("Lỗi khi lưu: " + (error.message || error));
     }
 }
-
 // ==================== SỬA SẢN PHẨM ====================
 async function editProduct(id) {
     try {

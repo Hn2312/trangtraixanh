@@ -842,3 +842,138 @@ th {
         gap: 30px;
     }
 }
+/* ==================== MODAL XEM CHI TIẾT SẢN PHẨM ==================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.75);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: white;
+    max-width: 900px;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    color: #000;
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+.modal-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.modal-info h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.modal-category {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.modal-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.modal-desc {
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 25px;
+}
+
+.btn-cart-modal {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-cart-modal:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* Responsive cho Modal */
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .modal-content {
+        max-width: 95%;
+    }
+    
+    .modal-image img {
+        max-height: 280px;
+    }
+}
+/* Nút Liên hệ trong Modal */
+.btn-contact-modal {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: #006400;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.btn-contact-modal:hover {
+    background: #228B22;
+    transform: translateY(-3px);
+}

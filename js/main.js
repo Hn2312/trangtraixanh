@@ -25,7 +25,7 @@ async function loadFeaturedProducts() {
     }
 }
 
-// Render sản phẩm nổi bật
+// ==================== RENDER SẢN PHẨM NỔI BẬT (ĐÃ SỬA) ====================
 function renderFeaturedProducts(products) {
     const grid = document.getElementById('featuredGrid');
     if (!grid) return;
@@ -35,14 +35,26 @@ function renderFeaturedProducts(products) {
     if (products.length === 0) {
         grid.innerHTML = `
             <p style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
-                Hiện chưa có sản phẩm. Vui lòng thêm sản phẩm trong Admin.
+                Hiện chưa có sản phẩm nổi bật. Vui lòng thêm sản phẩm trong Admin.
             </p>
         `;
         return;
     }
 
     products.forEach(p => {
-        const price = Number(p.price) || 0;
+        // Xử lý hiển thị giá (hỗ trợ chữ "Liên hệ")
+        let priceHTML = '';
+        if (!p.price || p.price === '' || p.price === null) {
+            priceHTML = '<span style="color:#006400; font-weight:600;">Liên hệ</span>';
+        } else {
+            const numPrice = Number(p.price);
+            if (isNaN(numPrice)) {
+                priceHTML = '<span style="color:#006400; font-weight:600;">Liên hệ</span>';
+            } else {
+                priceHTML = numPrice.toLocaleString('vi-VN') + ' VNĐ';
+            }
+        }
+
         const shortDesc = p.short_desc 
             ? p.short_desc 
             : (p.description ? p.description.substring(0, 85) + '...' : '');
@@ -55,14 +67,12 @@ function renderFeaturedProducts(products) {
 
             <div class="product-info">
                 <h3>${p.name}</h3>
-                <p class="product-price">${price.toLocaleString('vi-VN')} VNĐ</p>
+                <p class="product-price">${priceHTML}</p>
                 ${shortDesc ? `<p class="product-desc">${shortDesc}</p>` : ''}
                 
                 <div class="product-actions">
-                    <button onclick="showProductDetail('${p.id}')" class="btn-detail">Xem chi tiết</button>
-                    <button onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${price}, '${p.image_url || ''}')" class="btn-cart">
-                        Thêm giỏ hàng
-                    </button>
+                    <!-- Chỉ giữ nút Xem chi tiết, chuyển sang trang products.html -->
+                    <button onclick="viewProductDetail('${p.id}')" class="btn-detail">Xem chi tiết</button>
                 </div>
             </div>
         `;
@@ -70,11 +80,16 @@ function renderFeaturedProducts(products) {
     });
 }
 
+// Hàm chuyển sang trang products.html với ID sản phẩm
+function viewProductDetail(productId) {
+    window.location.href = `products.html?product=${productId}`;
+}
+
 // Khởi chạy trang chủ
 document.addEventListener('DOMContentLoaded', () => {
     loadFeaturedProducts();
 
-    // Cập nhật số lượng giỏ hàng
+    // Nếu có giỏ hàng thì cập nhật số lượng (nếu còn giữ)
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     const cartCountEl = document.getElementById('cartCount');
