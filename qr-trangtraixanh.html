@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mã QR - Trang Trại Xanh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        .qr-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        img {
+            width: 300px;
+            height: 300px;
+            margin: 20px 0;
+        }
+        h1 {
+            color: #e11d48;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="qr-box">
+        <h1>TRANG TRẠI XANH</h1>
+        <p>Quét mã QR để truy cập website chính thức</p>
+        
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://trangtraixanh.vn" 
+             alt="QR Code Trang Trại Xanh">
+        
+        <p><strong>https://trangtraixanh.vn</strong></p>
+        <p style="margin-top: 30px; font-size: 14px; color: #888;">
+            Công ty TNHH Thiết kế & Xây dựng Nội thất Thời Đại
+        </p>
+    </div>
+</body>
+</html>
