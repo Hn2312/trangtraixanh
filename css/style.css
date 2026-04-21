@@ -1,11 +1,11 @@
 /* ================================================
    STYLE.CSS - TRANG TRẠI XANH 
-   Tone xanh lá đậm - Thanh tìm kiếm đã làm xịn
+   Tone xanh lá đậm - Hero Slider không overlay
    ================================================ */
 
 :root {
-    --primary: #006400;           /* Xanh lá đậm chính */
-    --accent: #228B22;            /* Xanh lá nổi bật */
+    --primary: #006400;
+    --accent: #228B22;
     --light: #90EE90;
     --bg-light: #E6F4E6;
     --border-light: #C8E6C8;
@@ -21,7 +21,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
+    font-size: 15.5px;
     line-height: 1.6;
     color: var(--text);
     background: #fff;
@@ -35,22 +35,11 @@ body {
 
 /* ==================== TOP BAR ==================== */
 .top-bar {
-    background: #fff;
+    background: var(--primary);
+    color: white;
     padding: 10px 0;
-    border-bottom: 1px solid var(--border-light);
     font-size: 14px;
-}
-
-/* Flag Icons */
-.flag-icons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.flag-icons img {
-    height: 20px;
-    border-radius: 2px;
+    text-align: center;
 }
 
 /* ==================== HEADER ==================== */
@@ -83,7 +72,7 @@ header {
     color: var(--primary);
 }
 
-/* ==================== HEADER RIGHT - TÌM KIẾM + ICONS ==================== */
+/* Header Right - Search */
 .header-right {
     display: flex;
     align-items: center;
@@ -91,38 +80,26 @@ header {
     flex-wrap: nowrap;
 }
 
-/* Thanh tìm kiếm xịn */
 .search-box {
     background: white;
-    padding: 8px 8px 8px 20px;
+    padding: 8px 20px;
     border-radius: 50px;
     box-shadow: 0 4px 15px rgba(0, 100, 0, 0.15);
     display: flex;
     align-items: center;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
     width: 320px;
     max-width: 100%;
 }
 
 .search-box:hover {
     box-shadow: 0 6px 20px rgba(0, 100, 0, 0.25);
-    border-color: var(--primary);
 }
 
 .search-input {
     border: none;
     outline: none;
-    background: transparent;
     flex: 1;
     font-size: 15.5px;
-    padding: 8px 12px;
-    color: #333;
-}
-
-.search-input::placeholder {
-    color: #888;
-    font-style: italic;
 }
 
 .search-btn {
@@ -132,59 +109,17 @@ header {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 8px rgba(0, 100, 0, 0.3);
 }
 
 .search-btn:hover {
     background: var(--accent);
-    transform: scale(1.08);
 }
 
-/* Icon giỏ hàng & lịch sử */
-.cart-icon, .history-icon {
-    position: relative;
-    color: #333;
-    font-size: 26px;
-    text-decoration: none;
-    padding: 5px;
-    transition: color 0.3s;
-}
-
-.cart-icon:hover, .history-icon:hover {
-    color: var(--primary);
-}
-
-.history-icon {
-    font-size: 24px;
-}
-
-.cart-count {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    background: var(--primary);
-    color: white;
-    font-size: 12px;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* ==================== NAVIGATION ==================== */
+/* Navigation */
 nav {
     background: var(--primary);
-    padding: 15px 0;
+    padding: 14px 0;
 }
 
 nav ul {
@@ -199,107 +134,119 @@ nav a {
     color: white;
     text-decoration: none;
     font-weight: 600;
-    font-size: 15.5px;
-    transition: opacity 0.3s;
 }
 
-nav a:hover {
-    opacity: 0.85;
-}
-
-/* ==================== HERO ==================== */
+/* ==================== HERO SLIDER - KHÔNG OVERLAY XANH ==================== */
 .hero {
     position: relative;
-    min-height: 640px;
-    background: linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.72)),
-                url('/images/hinh-nen.jpg') center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    padding: 80px 0;
+    min-height: 680px;
+    overflow: hidden;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.hero-slide.active {
+    opacity: 1;
 }
 
 .hero-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 45px;
     position: relative;
     z-index: 2;
-}
-
-.circle-img {
-    width: 380px;
-    height: 380px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 15px 45px rgba(0, 100, 0, 0.4);
-    border: 14px solid rgba(255, 255, 255, 0.95);
-    flex-shrink: 0;
-}
-
-.circle-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.center-content {
-    flex: 1;
-    max-width: 560px;
     text-align: center;
-}
-
-.center-content h1 {
-    font-size: 41px;
-    line-height: 1.15;
-    color: var(--primary);
-    margin-bottom: 12px;
-}
-
-.center-content .slogan {
-    font-size: 20px;
-    color: var(--accent);
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-.center-content .subtitle {
-    font-size: 23px;
-    color: #333;
-    margin-bottom: 35px;
-    font-weight: 500;
-}
-
-.category {
-    background: rgba(0, 100, 0, 0.1);
-    color: var(--primary);
-    padding: 8px 18px;
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 15px;
-    display: inline-flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
 }
 
-/* ==================== SERVICES & PRODUCT GRID ==================== */
+.hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    color: white;
+    font-weight: 700;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.75);
+}
+
+.hero p {
+    font-size: 1.45rem;
+    margin-bottom: 35px;
+    color: white;
+    max-width: 780px;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.75);
+}
+
+.hero .btn {
+    background: var(--primary);
+    color: white;
+    padding: 16px 48px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(0,100,0,0.5);
+    transition: all 0.3s;
+}
+
+.hero .btn:hover {
+    background: var(--accent);
+    transform: translateY(-4px);
+}
+
+/* Slider Dots */
+.slider-nav {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    gap: 12px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.4);
+}
+
+/* ==================== SERVICES ==================== */
 .services {
     padding: 80px 0;
     background: #fff;
 }
 
-.services h2,
-h2 {
+.section-title {
     text-align: center;
-    font-size: 38px;           /* Tăng kích thước chữ */
-    color: var(--primary);     /* Màu xanh đậm giống "VỀ CHÚNG TÔI" */
+    font-size: 38px;
+    color: var(--primary);
     margin-bottom: 55px;
     font-weight: 700;
-    letter-spacing: -0.5px;
 }
-.services-grid,
-.product-grid {
+
+.services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
@@ -309,16 +256,15 @@ h2 {
 
 .service-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 35px 25px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 100, 0, 0.15);
-    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,100,0,0.12);
+    transition: all 0.3s;
 }
 
 .service-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 100, 0, 0.25);
 }
 
 .service-card i {
@@ -338,26 +284,10 @@ h2 {
     font-size: 15px;
 }
 
-/* Product Card */
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 15px;
-}
-
-/* ==================== OTHER SECTIONS ==================== */
-.section {
-    padding: 80px 0;
-}
-
+/* Stats */
 .stats {
-    background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                url('https://source.unsplash.com/random/1600x400/?farm,green') center/cover;
-    color: white;
+    background: #f8f9fa;
     padding: 60px 0;
-    text-align: center;
 }
 
 .stats-grid {
@@ -365,68 +295,25 @@ h2 {
     justify-content: center;
     gap: 60px;
     flex-wrap: wrap;
+    text-align: center;
 }
 
 .stat-item h2 {
     font-size: 52px;
     font-weight: bold;
-    color: #90EE90;
+    color: var(--primary);
 }
 
-.stat-item p {
-    font-size: 18px;
-    margin-top: 8px;
-}
-
-.why-us {
-    padding: 80px 0;
-    background: #fff;
-}
-
-.why-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 40px;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.why-card {
-    text-align: center;
-    padding: 20px;
-}
-
-.why-card i {
-    font-size: 65px;
-    color: var(--accent);
-    margin-bottom: 20px;
-}
-
-.why-card h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
-}
-
+/* Clients & Logo */
 .clients {
     background: #f8f8f8;
     padding: 70px 0;
 }
 
-.section-title {
-    background: var(--primary);
-    color: white;
-    display: inline-block;
-    padding: 10px 25px;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-bottom: 30px;
-}
-
 .logo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 30px;
     justify-items: center;
 }
 
@@ -441,78 +328,16 @@ h2 {
     transform: scale(1.08);
 }
 
-.about {
-    background: var(--bg-light);
-    padding: 80px 0;
-}
-
-.policy {
-    background: #fff;
-    padding: 80px 0;
-}
-
-.policy-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.policy-card {
-    background: var(--bg-light);
-    padding: 30px 25px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 100, 0, 0.15);
-}
-
-.policy-card h3 {
-    color: var(--primary);
-    margin-bottom: 15px;
-    font-size: 20px;
-}
-
-.policy-card ul {
-    list-style: none;
-}
-
-.policy-card li {
-    padding: 8px 0;
-    position: relative;
-    padding-left: 25px;
-}
-
-.policy-card li:before {
-    content: "✓";
-    color: var(--accent);
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.contact-item {
-    background: white;
-    padding: 30px 25px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 100, 0, 0.15);
+/* Footer */
+footer {
+    background: var(--primary);
+    color: white;
     text-align: center;
+    padding: 40px 0 25px;
+    font-size: 14.5px;
 }
 
-.contact-item i {
-    font-size: 42px;
-    color: var(--accent);
-    margin-bottom: 15px;
-}
-
-/* ==================== FLOATING CONTACT ==================== */
+/* Floating Contact */
 .float-contact {
     position: fixed;
     bottom: 25px;
@@ -528,67 +353,25 @@ h2 {
     align-items: center;
     justify-content: center;
     font-size: 29px;
-    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.5);
     margin-bottom: 12px;
     text-decoration: none;
-    transition: transform 0.3s;
+    box-shadow: 0 6px 20px rgba(0,100,0,0.5);
 }
 
-.phone-btn:hover, .zalo-btn:hover {
-    transform: scale(1.1);
-}
-
-.phone-btn {
-    background: var(--primary);
-    color: white;
-}
-
-.zalo-btn {
-    background: #0068ff;
-    color: white;
-    font-size: 33px;
-}
-
-/* ==================== FOOTER ==================== */
-footer {
-    background: var(--primary);
-    color: white;
-    text-align: center;
-    padding: 35px 0 25px;
-    font-size: 14.5px;
-}
+.phone-btn { background: var(--primary); color: white; }
+.zalo-btn { background: #0068ff; color: white; }
 
 /* ==================== RESPONSIVE ==================== */
-@media (max-width: 992px) {
-    .header-right {
-        gap: 12px;
-    }
-    .search-box {
-        width: 260px;
-    }
-}
-
 @media (max-width: 768px) {
-    .header-content {
-        justify-content: space-between;
-    }
-    .search-box {
-        width: 100%;
-        max-width: 280px;
-    }
-    .hero {
-        min-height: 520px;
-        padding: 50px 0;
-    }
-    .center-content h1 {
-        font-size: 32px;
-    }
-    nav ul {
-        gap: 15px;
-    }
+    .hero h1 { font-size: 2.6rem; }
+    .hero p { font-size: 1.2rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .stats-grid { gap: 30px; }
+    .header-right { flex-direction: column; align-items: stretch; }
+    .search-box { width: 100%; }
 }
 
-/* Utility */
+/* Utility Button */
 .btn {
     display: inline-block;
     background: var(--primary);
@@ -699,7 +482,7 @@ footer {
     text-decoration: underline;
 }
 
-/* ==================== PRODUCT PAGE & MODAL (giữ nguyên) ==================== */
+/* ==================== PRODUCT PAGE & MODAL ==================== */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -797,7 +580,7 @@ footer {
     background: #218838;
 }
 
-/* Modal giữ nguyên */
+/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -811,7 +594,7 @@ footer {
     justify-content: center;
 }
 
-/* ==================== ADMIN DASHBOARD - LÀM ĐẸP ==================== */
+/* ==================== ADMIN DASHBOARD ==================== */
 .admin-header {
     background: var(--primary);
     color: white;
@@ -957,16 +740,19 @@ th {
 
 /* Image Preview */
 #imagePreview {
-    margin-top: 12px;
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8fff8;
+    border-radius: 12px;
+    border: 2px solid #eee;
 }
 
 #imagePreview img {
     max-width: 100%;
-    max-height: 200px;
-    border-radius: 12px;
-    border: 2px solid #eee;
+    max-height: 220px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 100, 0, 0.15);
 }
-/* ==================== ADMIN FORM - CHỈNH NÚT LÀM MỚI & CHỌN TỆP ==================== */
 
 /* Nút Làm mới */
 .btn-secondary {
@@ -1001,30 +787,6 @@ th {
     background: #f0fff0;
 }
 
-/* Preview ảnh */
-#imagePreview {
-    margin-top: 15px;
-    padding: 10px;
-    background: #f8fff8;
-    border-radius: 12px;
-    border: 2px solid #eee;
-}
-
-#imagePreview img {
-    max-width: 100%;
-    max-height: 220px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 100, 0, 0.15);
-}
-
-/* Small text hướng dẫn */
-small {
-    display: block;
-    margin-top: 8px;
-    color: #666;
-    font-size: 13.5px;
-}
-
 /* Nút Lưu sản phẩm */
 #btnSave {
     background: var(--primary);
@@ -1038,4 +800,45 @@ small {
 #btnSave:hover {
     background: var(--accent);
 }
-/* ... (phần modal còn lại giữ nguyên như code cũ của bạn) ... */
+/* ==================== VỀ CHÚNG TÔI - 3 BÀI ==================== */
+.about-item {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 50px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.about-item:last-child {
+    margin-bottom: 0;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,100,0,0.15);
+}
+
+.about-text h3 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.about-text p {
+    margin-bottom: 18px;
+    font-size: 15.5px;
+    line-height: 1.7;
+}
+
+.about-text strong {
+    color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about-item {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
