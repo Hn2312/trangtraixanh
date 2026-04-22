@@ -5,39 +5,207 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Trang Trại Xanh</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        :root {
+            --primary: #006400;
+            --accent: #228B22;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f8f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .admin-header {
+            background: var(--primary);
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 100, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-header h2 { font-size: 1.5rem; display: flex; align-items: center; gap: 12px; }
+
+        .admin-name { font-weight: 600; margin-right: 15px; }
+
+        .btn-auth {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-auth:hover { background: #f0f9f0; transform: translateY(-2px); }
+
+        .admin-container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 100, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 16px 32px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .product-form, .order-list {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 100, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .form-input:focus, textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.1);
+        }
+
+        textarea { resize: vertical; min-height: 110px; }
+
+        #imagePreview {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+        }
+
+        .preview-item {
+            position: relative;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #e6f4e6;
+        }
+
+        .preview-item .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .btn-auth, .btn-secondary {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+
+        .btn-auth {
+            background: linear-gradient(135deg, var(--primary), #008000);
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f0f9f0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Admin Header -->
     <div class="admin-header">
         <h2><i class="fas fa-cog"></i> Admin Dashboard - Trang Trại Xanh</h2>
         <div>
             <span id="adminName" class="admin-name"></span>
             <button onclick="logoutAdmin()" class="btn-auth">
-                Đăng xuất
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
             </button>
         </div>
     </div>
 
     <div class="admin-container">
 
-        <!-- Tabs -->
         <div class="tabs">
             <div id="tabProducts" class="tab active" onclick="switchTab(1)">Quản lý Sản phẩm</div>
             <div id="tabOrders" class="tab" onclick="switchTab(2)">Quản lý Đơn hàng</div>
         </div>
 
-        <!-- ==================== TAB 1: QUẢN LÝ SẢN PHẨM ==================== -->
         <div id="contentProducts">
-            <!-- Form Thêm / Sửa Sản Phẩm -->
             <div class="product-form">
                 <h3 id="formTitle">Thêm Sản Phẩm Mới</h3>
                 <input type="hidden" id="editId">
 
                 <div class="form-group">
                     <label>Tên sản phẩm *</label>
-                    <input type="text" id="prodName" placeholder="Nhập tên sản phẩm" class="form-input">
+                    <input type="text" id="prodName" class="form-input">
                 </div>
 
                 <div class="form-group">
@@ -45,32 +213,29 @@
                     <select id="prodCategory" class="form-input"></select>
                 </div>
 
-                <!-- SỬA Ở ĐÂY: Giá cho phép điền chữ luôn -->
                 <div class="form-group">
                     <label>Giá (VNĐ) *</label>
-                    <input type="text" id="prodPrice" placeholder="Ví dụ: 5.600.000 hoặc Liên hệ / Giá thỏa thuận" class="form-input">
+                    <input type="text" id="prodPrice" placeholder="5600000 hoặc gõ 'Liên hệ'" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label>Mô tả ngắn</label>
-                    <input type="text" id="prodShortDesc" placeholder="Mô tả ngắn gọn" class="form-input">
+                    <input type="text" id="prodShortDesc" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label>Mô tả chi tiết</label>
-                    <textarea id="prodDescription" rows="4" placeholder="Chi tiết sản phẩm..."></textarea>
+                    <textarea id="prodDescription" rows="5"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Ảnh sản phẩm</label>
-                    <input type="file" id="prodImageFile" accept="image/*">
-                    <small>Chọn ảnh từ máy tính (jpg, png, webp...)</small>
-                    <div id="imagePreview" class="image-preview">
-                        <img id="previewImg" alt="Preview ảnh">
-                    </div>
+                    <label>Ảnh sản phẩm (có thể chọn nhiều)</label>
+                    <input type="file" id="prodImageFile" accept="image/*" multiple>
+                    <small>Chọn nhiều ảnh. Khi sửa có thể bổ sung ảnh mới.</small>
+                    <div id="imagePreview"></div>
                 </div>
 
-                <button onclick="saveProduct()" id="btnSave" class="btn-auth">
+                <button onclick="saveProduct()" class="btn-auth">
                     <i class="fas fa-save"></i> Lưu sản phẩm
                 </button>
                 <button onclick="resetForm()" class="btn-secondary">
@@ -78,7 +243,6 @@
                 </button>
             </div>
 
-            <!-- Danh sách sản phẩm -->
             <div class="product-list">
                 <h3>Danh sách sản phẩm</h3>
                 <table id="productTable">
@@ -96,7 +260,6 @@
             </div>
         </div>
 
-        <!-- ==================== TAB 2: QUẢN LÝ ĐƠN HÀNG ==================== -->
         <div id="contentOrders" style="display: none;">
             <div class="order-list">
                 <h3>Quản lý Đơn hàng</h3>
@@ -117,13 +280,10 @@
                 </table>
             </div>
         </div>
-
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
     <script src="js/admin.js"></script>
-
 </body>
 </html>
