@@ -39,7 +39,8 @@
             border-radius: 9999px;
             font-size: 0.85rem;
             font-weight: 600;
-            border: none;
+            border: 1px solid #ddd;
+            background: white;
             cursor: pointer;
         }
     </style>
@@ -266,6 +267,15 @@
         let allProducts = [];
         let currentOrderData = null;
 
+        // ==================== ĐĂNG XUẤT ====================
+        function logoutAdmin() {
+            if (confirm("Bạn có chắc muốn đăng xuất Admin?")) {
+                localStorage.removeItem('isAdminLoggedIn');
+                localStorage.removeItem('adminName');
+                window.location.href = "admin-login.html";
+            }
+        }
+
         async function loadProductsForSelect() {
             try {
                 const { data } = await supabase.from('products').select('id, name').eq('is_available', true).order('name');
@@ -283,7 +293,6 @@
             }
         }
 
-        // Load danh sách đơn hàng
         async function loadOrders() {
             try {
                 const { data, error } = await supabase
@@ -319,8 +328,7 @@
                         <td class="py-5 px-6 text-sm">${order.address || '—'}</td>
                         <td class="py-5 px-6 text-right font-medium">${total}</td>
                         <td class="py-5 px-6 text-center">
-                            <select onchange="updateOrderStatus('${order.id}', this.value)" 
-                                    class="status-select bg-white border border-gray-300">
+                            <select onchange="updateOrderStatus('${order.id}', this.value)" class="status-select">
                                 <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Chờ xử lý</option>
                                 <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Đã xác nhận</option>
                                 <option value="shipping" ${order.status === 'shipping' ? 'selected' : ''}>Đang giao</option>
@@ -330,10 +338,8 @@
                         </td>
                         <td class="py-5 px-6 text-sm">${new Date(order.created_at).toLocaleDateString('vi-VN')}</td>
                         <td class="py-5 px-6 text-center">
-                            <button onclick="viewOrderDetail('${order.id}')" 
-                                    class="text-emerald-600 hover:text-emerald-800 font-medium mr-3">Chi tiết</button>
-                            <button onclick="deleteOrder('${order.id}')" 
-                                    class="text-red-600 hover:text-red-700 font-medium">Xóa</button>
+                            <button onclick="viewOrderDetail('${order.id}')" class="text-emerald-600 hover:text-emerald-800 mr-4">Chi tiết</button>
+                            <button onclick="deleteOrder('${order.id}')" class="text-red-600 hover:text-red-700">Xóa</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -346,45 +352,31 @@
             }
         }
 
-        // Cập nhật trạng thái
         async function updateOrderStatus(orderId, newStatus) {
             try {
-                const { error } = await supabase
-                    .from('orders')
-                    .update({ status: newStatus })
-                    .eq('id', orderId);
-
+                const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', orderId);
                 if (error) throw error;
 
                 const toast = document.createElement('div');
-                toast.className = "fixed bottom-4 right-4 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-lg flex items-center gap-2 z-50";
+                toast.className = "fixed bottom-4 right-4 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-lg";
                 toast.innerHTML = `<i class="fas fa-check-circle"></i> Đã cập nhật trạng thái`;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.remove(), 2500);
-
             } catch (err) {
-                alert("❌ Không thể cập nhật trạng thái: " + err.message);
+                alert("❌ Không thể cập nhật trạng thái");
                 loadOrders();
             }
         }
 
-        // XÓA ĐƠN HÀNG
         async function deleteOrder(orderId) {
-            if (!confirm(`Bạn có chắc muốn xóa đơn hàng #${orderId} không?`)) {
-                return;
-            }
+            if (!confirm(`Bạn có chắc muốn xóa đơn hàng #${orderId} không?`)) return;
 
             try {
-                const { error } = await supabase
-                    .from('orders')
-                    .delete()
-                    .eq('id', orderId);
-
+                const { error } = await supabase.from('orders').delete().eq('id', orderId);
                 if (error) throw error;
 
                 alert(`✅ Đã xóa đơn hàng #${orderId}`);
-                loadOrders();   // Reload danh sách
-
+                loadOrders();
             } catch (err) {
                 alert("❌ Không thể xóa đơn hàng: " + (err.message || err));
             }
@@ -533,9 +525,7 @@
             document.getElementById('contentProducts').classList.toggle('hidden', tab !== 1);
             document.getElementById('contentOrders').classList.toggle('hidden', tab !== 2);
 
-            if (tab === 2) {
-                loadOrders();
-            }
+            if (tab === 2) loadOrders();
         }
 
         // Khởi tạo
@@ -552,6 +542,7 @@
             window.loadOrders = loadOrders;
             window.deleteOrder = deleteOrder;
             window.updateOrderStatus = updateOrderStatus;
+            window.logoutAdmin = logoutAdmin;   // ← Quan trọng: export hàm logout
         });
     </script>
 
