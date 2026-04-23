@@ -34,22 +34,12 @@
             padding: 20px;
         }
 
-        .preview-item {
-            position: relative;
-        }
-        .preview-item .remove-btn {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ef4444;
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
+        .status-select {
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
             cursor: pointer;
         }
     </style>
@@ -250,7 +240,7 @@
         </div>
     </div>
 
-    <!-- MODAL XEM CHI TIẾT ĐƠN HÀNG -->
+    <!-- MODAL XEM CHI TIẾT -->
     <div id="orderDetailModal" class="modal">
         <div class="bg-white rounded-3xl max-w-3xl w-full mx-auto shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
             <div class="px-8 py-6 border-b bg-emerald-50 flex justify-between items-center">
@@ -276,7 +266,6 @@
         let allProducts = [];
         let currentOrderData = null;
 
-        // Load sản phẩm vào dropdown
         async function loadProductsForSelect() {
             try {
                 const { data } = await supabase.from('products').select('id, name').eq('is_available', true).order('name');
@@ -291,6 +280,113 @@
                 });
             } catch (e) {
                 console.error("Lỗi load sản phẩm:", e);
+            }
+        }
+
+        // Load danh sách đơn hàng
+        async function loadOrders() {
+            try {
+                const { data, error } = await supabase
+                    .from('orders')
+                    .select(`
+                        id, customer_name, phone, address, quantity, 
+                        total_amount, status, note, created_at,
+                        products(name)
+                    `)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                const tbody = document.getElementById('orderTableBody');
+                tbody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-12 text-gray-500">Chưa có đơn hàng nào</td></tr>`;
+                    return;
+                }
+
+                data.forEach(order => {
+                    const total = order.total_amount 
+                        ? Number(order.total_amount).toLocaleString('vi-VN') + ' ₫' 
+                        : '—';
+
+                    const row = document.createElement('tr');
+                    row.className = "border-b hover:bg-gray-50";
+                    row.innerHTML = `
+                        <td class="py-5 px-6 font-medium">${order.id}</td>
+                        <td class="py-5 px-6">${order.customer_name}</td>
+                        <td class="py-5 px-6">${order.phone}</td>
+                        <td class="py-5 px-6 text-sm">${order.address || '—'}</td>
+                        <td class="py-5 px-6 text-right font-medium">${total}</td>
+                        <td class="py-5 px-6 text-center">
+                            <select onchange="updateOrderStatus('${order.id}', this.value)" 
+                                    class="status-select bg-white border border-gray-300">
+                                <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Chờ xử lý</option>
+                                <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Đã xác nhận</option>
+                                <option value="shipping" ${order.status === 'shipping' ? 'selected' : ''}>Đang giao</option>
+                                <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Hoàn thành</option>
+                                <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Đã hủy</option>
+                            </select>
+                        </td>
+                        <td class="py-5 px-6 text-sm">${new Date(order.created_at).toLocaleDateString('vi-VN')}</td>
+                        <td class="py-5 px-6 text-center">
+                            <button onclick="viewOrderDetail('${order.id}')" 
+                                    class="text-emerald-600 hover:text-emerald-800 font-medium mr-3">Chi tiết</button>
+                            <button onclick="deleteOrder('${order.id}')" 
+                                    class="text-red-600 hover:text-red-700 font-medium">Xóa</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (err) {
+                console.error("Lỗi load đơn hàng:", err);
+                document.getElementById('orderTableBody').innerHTML = 
+                    `<tr><td colspan="8" class="text-center py-12 text-red-500">Lỗi tải dữ liệu: ${err.message}</td></tr>`;
+            }
+        }
+
+        // Cập nhật trạng thái
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                const { error } = await supabase
+                    .from('orders')
+                    .update({ status: newStatus })
+                    .eq('id', orderId);
+
+                if (error) throw error;
+
+                const toast = document.createElement('div');
+                toast.className = "fixed bottom-4 right-4 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-lg flex items-center gap-2 z-50";
+                toast.innerHTML = `<i class="fas fa-check-circle"></i> Đã cập nhật trạng thái`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2500);
+
+            } catch (err) {
+                alert("❌ Không thể cập nhật trạng thái: " + err.message);
+                loadOrders();
+            }
+        }
+
+        // XÓA ĐƠN HÀNG
+        async function deleteOrder(orderId) {
+            if (!confirm(`Bạn có chắc muốn xóa đơn hàng #${orderId} không?`)) {
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('orders')
+                    .delete()
+                    .eq('id', orderId);
+
+                if (error) throw error;
+
+                alert(`✅ Đã xóa đơn hàng #${orderId}`);
+                loadOrders();   // Reload danh sách
+
+            } catch (err) {
+                alert("❌ Không thể xóa đơn hàng: " + (err.message || err));
             }
         }
 
@@ -335,73 +431,10 @@
 
                 alert("✅ Tạo đơn hàng thành công!");
                 closeCreateOrderModal();
-                
-                // Tải lại danh sách đơn hàng NGAY LẬP TỨC
                 loadOrders();
 
             } catch (err) {
-                console.error(err);
                 alert("❌ Lỗi khi tạo đơn hàng: " + (err.message || err));
-            }
-        }
-
-        // Load danh sách đơn hàng
-        async function loadOrders() {
-            try {
-                const { data, error } = await supabase
-                    .from('orders')
-                    .select(`
-                        id,
-                        customer_name,
-                        phone,
-                        address,
-                        quantity,
-                        total_amount,
-                        status,
-                        note,
-                        created_at,
-                        products(name)
-                    `)
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                const tbody = document.getElementById('orderTableBody');
-                tbody.innerHTML = '';
-
-                data.forEach(order => {
-                    const total = order.total_amount 
-                        ? Number(order.total_amount).toLocaleString('vi-VN') + ' ₫' 
-                        : '—';
-
-                    const statusHTML = {
-                        'pending': '<span class="status-badge bg-yellow-100 text-yellow-700">Chờ xử lý</span>',
-                        'confirmed': '<span class="status-badge bg-blue-100 text-blue-700">Đã xác nhận</span>',
-                        'shipping': '<span class="status-badge bg-emerald-100 text-emerald-700">Đang giao</span>',
-                        'completed': '<span class="status-badge bg-teal-100 text-teal-700">Hoàn thành</span>',
-                        'cancelled': '<span class="status-badge bg-red-100 text-red-700">Đã hủy</span>'
-                    }[order.status] || '<span class="status-badge bg-gray-100 text-gray-700">Không rõ</span>';
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="py-5 px-6 font-medium text-sm">${order.id}</td>
-                        <td class="py-5 px-6">${order.customer_name}</td>
-                        <td class="py-5 px-6">${order.phone}</td>
-                        <td class="py-5 px-6 text-sm">${order.address || '—'}</td>
-                        <td class="py-5 px-6 text-right font-medium">${total}</td>
-                        <td class="py-5 px-6 text-center">${statusHTML}</td>
-                        <td class="py-5 px-6 text-sm">${new Date(order.created_at).toLocaleDateString('vi-VN')}</td>
-                        <td class="py-5 px-6 text-center">
-                            <button onclick="viewOrderDetail(${order.id})" class="text-emerald-600 hover:underline text-sm">Chi tiết</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-            } catch (err) {
-                console.error("Lỗi load đơn hàng:", err);
-                const tbody = document.getElementById('orderTableBody');
-                if (tbody) tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-red-500">Lỗi tải đơn hàng: ${err.message}</td></tr>`;
             }
         }
 
@@ -464,14 +497,13 @@
 
         function exportToPDF() {
             if (!currentOrderData) return;
-
             const element = document.createElement('div');
             element.innerHTML = `
-                <div style="padding:40px; font-family:Arial,sans-serif;">
+                <div style="padding:40px; font-family:Arial,sans-serif; max-width:800px; margin:auto;">
                     <h1 style="text-align:center;">TRANG TRẠI XANH</h1>
                     <p style="text-align:center;">Biofarm Energy • Hóa đơn bán hàng</p>
                     <p style="text-align:center;">Mã đơn: #${currentOrderData.id}</p>
-                    <hr>
+                    <hr style="margin:20px 0;">
                     <p><strong>Khách hàng:</strong> ${currentOrderData.customer_name}</p>
                     <p><strong>SĐT:</strong> ${currentOrderData.phone}</p>
                     <p><strong>Địa chỉ:</strong> ${currentOrderData.address || 'Không có'}</p>
@@ -492,7 +524,6 @@
                     <p style="margin-top:50px; text-align:center;">Cảm ơn quý khách đã mua hàng!</p>
                 </div>
             `;
-
             html2pdf().from(element).save(`HoaDon_${currentOrderData.id}.pdf`);
         }
 
@@ -501,6 +532,10 @@
             document.getElementById('tabOrders').classList.toggle('active', tab === 2);
             document.getElementById('contentProducts').classList.toggle('hidden', tab !== 1);
             document.getElementById('contentOrders').classList.toggle('hidden', tab !== 2);
+
+            if (tab === 2) {
+                loadOrders();
+            }
         }
 
         // Khởi tạo
@@ -514,6 +549,9 @@
             window.exportToPDF = exportToPDF;
             window.closeCreateOrderModal = closeCreateOrderModal;
             window.showCreateOrderModal = showCreateOrderModal;
+            window.loadOrders = loadOrders;
+            window.deleteOrder = deleteOrder;
+            window.updateOrderStatus = updateOrderStatus;
         });
     </script>
 
