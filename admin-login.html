@@ -3,23 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập Admin - Trang trại xanh</title>
+    <title>Đăng nhập Admin - Trang Trại Xanh</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        .login-container {
+            background: linear-gradient(135deg, #006400, #228B22);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: #006400;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #006400;
+            box-shadow: 0 0 0 4px rgba(0, 100, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
 
-    <div class="admin-login-box">
-        <h2><i class="fas fa-shield-alt"></i> Đăng nhập Admin</h2>
-        
-        <input type="text" id="adminUsername" placeholder="Tên đăng nhập" class="form-input">
-        <input type="password" id="adminPassword" placeholder="Mật khẩu" class="form-input">
-        
-        <button onclick="loginAdmin()" class="btn-auth" style="margin-top:20px;">
-            Đăng nhập Admin
-        </button>
+    <div class="login-container">
+        <div class="login-box">
+            
+            <!-- Header -->
+            <div class="login-header">
+                <div class="flex justify-center mb-4">
+                    <div class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-leaf text-5xl text-white"></i>
+                    </div>
+                </div>
+                <h2 class="heading-font text-3xl font-bold">Trang Trại Xanh</h2>
+                <p class="text-emerald-100 mt-2">Biofarm Energy • Admin Panel</p>
+            </div>
+
+            <!-- Form -->
+            <div class="p-10">
+                <h3 class="text-2xl font-semibold text-gray-800 text-center mb-8 flex items-center justify-center gap-3">
+                    <i class="fas fa-shield-alt text-emerald-600"></i>
+                    Đăng nhập Admin
+                </h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-2">Tên đăng nhập</label>
+                        <div class="relative">
+                            <div class="absolute left-5 top-1/2 -translate-y-1/2 text-emerald-600">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <input type="text" id="adminUsername" 
+                                   placeholder="Nhập tên đăng nhập"
+                                   class="form-input w-full pl-12 pr-5 py-4 border border-gray-300 rounded-2xl focus:outline-none text-base">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-2">Mật khẩu</label>
+                        <div class="relative">
+                            <div class="absolute left-5 top-1/2 -translate-y-1/2 text-emerald-600">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <input type="password" id="adminPassword" 
+                                   placeholder="Nhập mật khẩu"
+                                   class="form-input w-full pl-12 pr-5 py-4 border border-gray-300 rounded-2xl focus:outline-none text-base">
+                        </div>
+                    </div>
+
+                    <button onclick="loginAdmin()" 
+                            class="w-full bg-emerald-700 hover:bg-emerald-800 transition text-white font-semibold py-4 rounded-2xl text-lg flex items-center justify-center gap-3 mt-4">
+                        <i class="fas fa-sign-in-alt"></i>
+                        ĐĂNG NHẬP
+                    </button>
+
+                    <div class="text-center mt-6">
+                        <a href="#" onclick="forgotPassword()" 
+                           class="text-emerald-600 hover:text-emerald-700 text-sm font-medium">
+                            Quên mật khẩu?
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="border-t border-gray-100 py-5 text-center text-xs text-gray-500">
+                © 2026 Trang Trại Xanh - Biofarm Energy
+            </div>
+        </div>
     </div>
 
+    <script>
+        // Enter key support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Enter") {
+                loginAdmin();
+            }
+        });
+
+        // Fake forgot password
+        function forgotPassword() {
+            alert("Vui lòng liên hệ quản trị viên chính để khôi phục mật khẩu.\nHotline: 0987 042 718");
+        }
+
+        // Hàm login sẽ được xử lý trong file js/admin-auth.js
+        // Bạn có thể giữ nguyên hàm loginAdmin() trong file đó
+    </script>
+
+    <!-- Supabase & Auth Script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
     <script src="js/admin-auth.js"></script>

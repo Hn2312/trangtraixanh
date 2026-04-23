@@ -3,160 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Trại Xanh - CÔNG TY TNHH THIẾT KẾ & XÂY DỰNG NỘI THẤT THỜI ĐẠI</title>
+    <title>Trang Trại Xanh - Biofarm Energy | Giải Pháp Chăn Nuôi & Năng Lượng</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .product-card {
+            transition: all 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .stat-item {
+            transition: transform 0.3s ease;
+        }
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
 
     <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container">📧 thietbithoidai@gmail.com &nbsp;&nbsp; ☎ 0987 042 718</div>
-        <!-- Dòng mới thêm vào -->
-<div class="container mt-2 text-sm">
-    Trực thuộc: 
-    <a href="https://xaydunguocmo.com" 
-       target="_blank" 
-       class="text-[#f06292] hover:underline font-medium">
-        Công ty TNHH Thiết kế và Xây dựng Nội thất Thời Đại
-    </a>
-</div>
+    <div class="bg-emerald-700 text-white py-3 text-sm">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-6">
+                <div>📧 thietbithoidai@gmail.com</div>
+                <div>☎ 0987 042 718</div>
+            </div>
+            <div class="text-sm">
+                Trực thuộc: 
+                <a href="https://xaydunguocmo.com" target="_blank" 
+                   class="underline hover:text-emerald-200 transition-colors">
+                    Công ty TNHH Thiết kế & Xây dựng Nội thất Thời Đại
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <img src="/images/logo.png" alt="Trang Trại Xanh">
-                <div>
-                    <span class="logo-text">TRANG TRẠI XANH</span><br>
-                    <small>BIOFARM ENERGY</small>
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-5">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-4">
+                    <img src="/images/logo.png" alt="Trang Trại Xanh" class="h-14 w-auto">
+                    <div>
+                        <span class="heading-font text-2xl font-bold tracking-tight text-emerald-700">TRANG TRẠI XANH</span>
+                        <p class="text-xs text-emerald-600 font-medium">BIOFARM ENERGY</p>
+                    </div>
                 </div>
-            </div>
-            <div class="header-right">
-                <div class="search-box">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm...">
-                    <button onclick="searchAndGo()" class="search-btn"><i class="fas fa-search"></i></button>
+
+                <!-- Search & Button -->
+                <div class="flex items-center gap-4">
+                    <div class="relative w-80 hidden md:block">
+                        <input type="text" id="searchInput" 
+                               class="w-full pl-5 pr-12 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-emerald-500 text-sm"
+                               placeholder="Tìm kiếm sản phẩm, giải pháp...">
+                        <button onclick="searchAndGo()" 
+                                class="absolute right-2 top-1/2 -translate-y-1/2 bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="https://zalo.me/0987042718" target="_blank"
+                       class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-full font-medium transition flex items-center gap-2">
+                        <i class="fas fa-headset"></i>
+                        Tư vấn ngay
+                    </a>
                 </div>
-                <a href="https://zalo.me/0987042718" target="_blank" class="btn">Tư vấn ngay</a>
             </div>
         </div>
     </header>
 
     <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="index.html">TRANG CHỦ</a></li>
-                <li><a href="products.html">SẢN PHẨM</a></li>
-                <li><a href="#services">GIẢI PHÁP</a></li>
-                <li><a href="#about">VỀ CHÚNG TÔI</a></li>
-                <li><a href="#footer">LIÊN HỆ</a></li>
+    <nav class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <ul class="flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-2 py-4 text-sm font-medium">
+                <li><a href="index.html" class="hover:text-emerald-600 transition">TRANG CHỦ</a></li>
+                <li><a href="products.html" class="hover:text-emerald-600 transition">SẢN PHẨM</a></li>
+                <li><a href="#services" class="hover:text-emerald-600 transition">GIẢI PHÁP</a></li>
+                <li><a href="#about" class="hover:text-emerald-600 transition">VỀ CHÚNG TÔI</a></li>
+                <li><a href="#footer" class="hover:text-emerald-600 transition">LIÊN HỆ</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Slider -->
-    <section class="hero" id="hero">
-        <div id="heroSlides"></div>
-
-        <div class="hero-content">
-            <h1>CÔNG TY TNHH THIẾT KẾ & XÂY DỰNG NỘI THẤT THỜI ĐẠI</h1>
-            <p>Trang Trại Xanh – Công nghệ tiên tiến cho năng suất vượt trội và phát triển bền vững</p>
-            <a href="https://zalo.me/0987042718" target="_blank" class="btn">Khám phá ngay</a>
+    <section class="relative h-screen overflow-hidden">
+        <div id="heroSlides" class="absolute inset-0"></div>
+        
+        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60"></div>
+        
+        <div class="hero-content absolute inset-0 flex items-center justify-center text-center px-4 z-10">
+            <div class="max-w-3xl">
+                <h1 class="heading-font text-5xl md:text-6xl font-bold text-white leading-tight mb-4">
+                    CÔNG TY TNHH THIẾT KẾ & XÂY DỰNG<br>NỘI THẤT THỜI ĐẠI
+                </h1>
+                <p class="text-xl text-white/90 mb-8">
+                    Trang Trại Xanh – Giải pháp chăn nuôi hiện đại & năng lượng sinh học bền vững
+                </p>
+                <a href="https://zalo.me/0987042718" target="_blank"
+                   class="inline-block bg-white text-emerald-700 px-10 py-4 rounded-full font-semibold text-lg hover:scale-105 transition">
+                    Khám phá ngay
+                </a>
+            </div>
         </div>
 
-        <div class="slider-nav" id="sliderDots"></div>
+        <div id="sliderDots" class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-20"></div>
     </section>
 
     <!-- Stats -->
-    <section class="stats section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item"><h2>1000+</h2><p>Dự án</p></div>
-                <div class="stat-item"><h2>90+</h2><p>Nhân viên</p></div>
-                <div class="stat-item"><h2>570+</h2><p>Khách hàng</p></div>
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-3 gap-8 text-center">
+                <div class="stat-item">
+                    <h2 class="text-5xl font-bold text-emerald-600">1000+</h2>
+                    <p class="mt-2 text-gray-600">Dự án đã thực hiện</p>
+                </div>
+                <div class="stat-item">
+                    <h2 class="text-5xl font-bold text-emerald-600">90+</h2>
+                    <p class="mt-2 text-gray-600">Nhân viên chuyên nghiệp</p>
+                </div>
+                <div class="stat-item">
+                    <h2 class="text-5xl font-bold text-emerald-600">570+</h2>
+                    <p class="mt-2 text-gray-600">Khách hàng tin tưởng</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Giải pháp -->
-    <section id="services" class="services section">
-        <div class="container">
-            <h2 class="section-title">GIẢI PHÁP CỦA CHÚNG TÔI</h2>
-            <div class="services-grid">
-                <div class="service-card"><i class="fas fa-warehouse"></i><h3>FARM</h3><p>Chuồng trại hiện đại</p></div>
-                <div class="service-card"><i class="fas fa-utensils"></i><h3>FEED</h3><p>Hệ thống cho ăn tự động</p></div>
-                <div class="service-card"><i class="fas fa-fire"></i><h3>BIOMASS</h3><p>Xử lý chất thải sinh học</p></div>
-                <div class="service-card"><i class="fas fa-solar-panel"></i><h3>ENERGY</h3><p>Năng lượng tái tạo</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SẢN PHẨM NỔI BẬT -->
-    <section class="featured section" style="background:#f8f9fa;">
-        <div class="container">
-            <h2 class="section-title">SẢN PHẨM NỔI BẬT</h2>
-            <div id="featuredGrid" class="product-grid"></div>
-        </div>
-    </section>
-
-    <!-- VỀ CHÚNG TÔI -->
-    <section id="about" class="about section">
-        <div class="container">
-            <h2 class="section-title">VỀ CHÚNG TÔI</h2>
-
-            <div class="about-item">
-                <div class="about-image">
-                    <img src="/images/hinh-nen.jpg" alt="Trang trại Xanh">
+    <section id="services" class="py-20 bg-emerald-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="heading-font text-4xl font-bold text-center mb-12 text-emerald-800">GIẢI PHÁP CỦA CHÚNG TÔI</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="service-card bg-white p-8 rounded-3xl text-center shadow hover:shadow-xl transition">
+                    <i class="fas fa-warehouse text-5xl text-emerald-600 mb-4"></i>
+                    <h3 class="text-2xl font-semibold mb-2">FARM</h3>
+                    <p class="text-gray-600">Chuồng trại hiện đại</p>
                 </div>
-                <div class="about-text">
-                    <h3>Trang Trại Xanh - Biofarm Energy</h3>
-                    <p>Chúng tôi là đơn vị chuyên cung cấp giải pháp chăn nuôi hiện đại và năng lượng sinh học tại Việt Nam.</p>
-                    <a href="https://zalo.me/0987042718" target="_blank" class="btn">Tìm hiểu thêm</a>
+                <div class="service-card bg-white p-8 rounded-3xl text-center shadow hover:shadow-xl transition">
+                    <i class="fas fa-utensils text-5xl text-emerald-600 mb-4"></i>
+                    <h3 class="text-2xl font-semibold mb-2">FEED</h3>
+                    <p class="text-gray-600">Hệ thống cho ăn tự động</p>
                 </div>
-            </div>
-
-            <div class="about-item">
-                <div class="about-image">
-                    <img src="/images/congtrinh.jpeg" alt="Sứ mệnh">
+                <div class="service-card bg-white p-8 rounded-3xl text-center shadow hover:shadow-xl transition">
+                    <i class="fas fa-fire text-5xl text-emerald-600 mb-4"></i>
+                    <h3 class="text-2xl font-semibold mb-2">BIOMASS</h3>
+                    <p class="text-gray-600">Xử lý chất thải sinh học</p>
                 </div>
-                <div class="about-text">
-                    <h3>Sứ mệnh & Tầm nhìn</h3>
-                    <p>Sứ mệnh của Trang Trại Xanh là đồng hành cùng bà con chăn nuôi Việt Nam xây dựng nền nông nghiệp sạch và bền vững.</p>
-                </div>
-            </div>
-
-            <div class="about-item">
-                <div class="about-image">
-                    <img src="/images/maymoc.jpeg" alt="Giá trị cốt lõi">
-                </div>
-                <div class="about-text">
-                    <h3>Giá trị cốt lõi</h3>
-                    <p>Chúng tôi cam kết mang đến <strong>Chất lượng - Đổi mới - Bền vững</strong>.</p>
-                    <a href="https://zalo.me/0987042718" target="_blank" class="btn">Liên hệ hợp tác</a>
+                <div class="service-card bg-white p-8 rounded-3xl text-center shadow hover:shadow-xl transition">
+                    <i class="fas fa-solar-panel text-5xl text-emerald-600 mb-4"></i>
+                    <h3 class="text-2xl font-semibold mb-2">ENERGY</h3>
+                    <p class="text-gray-600">Năng lượng tái tạo</p>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Sản phẩm nổi bật -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="heading-font text-4xl font-bold text-center mb-12 text-emerald-800">SẢN PHẨM NỔI BẬT</h2>
+            <div id="featuredGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- Về chúng tôi -->
+    <section id="about" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="heading-font text-4xl font-bold text-center mb-16 text-emerald-800">VỀ CHÚNG TÔI</h2>
+            
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-white rounded-3xl overflow-hidden shadow">
+                    <img src="/images/hinh-nen.jpg" alt="Trang trại" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold mb-3">Trang Trại Xanh - Biofarm Energy</h3>
+                        <p class="text-gray-600">Chuyên cung cấp giải pháp chăn nuôi hiện đại và năng lượng sinh học tại Việt Nam.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow">
+                    <img src="/images/congtrinh.jpeg" alt="Sứ mệnh" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold mb-3">Sứ mệnh & Tầm nhìn</h3>
+                        <p class="text-gray-600">Đồng hành cùng bà con chăn nuôi xây dựng nền nông nghiệp sạch và bền vững.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow">
+                    <img src="/images/maymoc.jpeg" alt="Giá trị" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold mb-3">Giá trị cốt lõi</h3>
+                        <p class="text-gray-600">Chất lượng - Đổi mới - Bền vững</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QR Code Section -->
+    <div class="bg-white py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-600 mb-6 text-lg">Quét mã QR để truy cập website Trang Trại Xanh</p>
+            
+            <div class="inline-block bg-white p-6 rounded-3xl shadow-xl">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://trangtraixanh.vn" 
+                     alt="QR Code Trang Trại Xanh" 
+                     class="w-60 h-60 mx-auto">
+            </div>
+            
+            <p class="mt-8">
+                <a href="https://trangtraixanh.vn" target="_blank" 
+                   class="inline-flex items-center gap-3 text-emerald-600 hover:text-emerald-700 font-medium text-xl transition">
+                    <i class="fas fa-external-link-alt"></i>
+                    trangtraixanh.vn
+                </a>
+            </p>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer id="footer">
-        <div class="container">
-            <p>85 Trần Thị Hè, Phường Tân Thới Hiệp, Quận 12, TP.HCM</p>
-            <p>Email: thietbithoidai@gmail.com &nbsp;&nbsp; Hotline: 0987 042 718</p>
-            <p>© 2026 Trang Trại Xanh</p>
+    <footer id="footer" class="bg-emerald-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">85 Trần Thị Hè, Phường Tân Thới Hiệp, Quận 12, TP.HCM</p>
+            <p class="mb-2">Email: thietbithoidai@gmail.com | Hotline: 0987 042 718</p>
+            <p class="text-emerald-300 text-sm mt-6">© 2026 Trang Trại Xanh - Biofarm Energy. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- Floating Contact -->
-    <div class="float-contact">
-        <a href="tel:0987042718" class="phone-btn"><i class="fas fa-phone"></i></a>
-        <a href="https://zalo.me/0987042718" target="_blank" class="zalo-btn"><i class="fab fa-whatsapp"></i></a>
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+        <a href="tel:0987042718" class="w-14 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center shadow-lg transition">
+            <i class="fas fa-phone text-2xl"></i>
+        </a>
+        <a href="https://zalo.me/0987042718" target="_blank" 
+           class="w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
     </div>
 
     <script>
-        // Hero Slider (giữ nguyên)
+        // Tailwind Script
+        tailwind.config = {
+            content: [],
+            theme: {
+                extend: {}
+            }
+        }
+
+        // Hero Slider
         const slides = [
             '/images/gacon.jpeg',
             '/images/congtrinh.jpeg',
@@ -165,22 +283,21 @@
         ];
 
         let currentSlide = 0;
-        const heroContainer = document.getElementById('heroSlides');
-        const dotsContainer = document.getElementById('sliderDots');
 
         function createSlides() {
-            heroContainer.innerHTML = '';
+            const container = document.getElementById('heroSlides');
+            const dotsContainer = document.getElementById('sliderDots');
+            container.innerHTML = '';
             dotsContainer.innerHTML = '';
+
             slides.forEach((src, index) => {
                 const slide = document.createElement('div');
-                slide.className = 'hero-slide';
+                slide.className = `hero-slide ${index === 0 ? 'active' : ''}`;
                 slide.style.backgroundImage = `url('${src}')`;
-                if (index === 0) slide.classList.add('active');
-                heroContainer.appendChild(slide);
+                container.appendChild(slide);
 
                 const dot = document.createElement('div');
-                dot.className = 'dot';
-                if (index === 0) dot.classList.add('active');
+                dot.className = `w-4 h-4 rounded-full cursor-pointer transition ${index === 0 ? 'bg-white scale-125' : 'bg-white/50'}`;
                 dot.onclick = () => goToSlide(index);
                 dotsContainer.appendChild(dot);
             });
@@ -188,11 +305,13 @@
 
         function goToSlide(n) {
             const allSlides = document.querySelectorAll('.hero-slide');
-            const allDots = document.querySelectorAll('.dot');
+            const allDots = document.querySelectorAll('#sliderDots > div');
+            
             allSlides.forEach(s => s.classList.remove('active'));
-            allDots.forEach(d => d.classList.remove('active'));
+            allDots.forEach(d => d.classList.remove('bg-white', 'scale-125'));
+            
             allSlides[n].classList.add('active');
-            allDots[n].classList.add('active');
+            allDots[n].classList.add('bg-white', 'scale-125');
             currentSlide = n;
         }
 
@@ -201,11 +320,8 @@
             goToSlide(currentSlide);
         }
 
-        createSlides();
-        setInterval(nextSlide, 4000);
-
-        // Tìm kiếm → chuyển sang trang products.html
-        function searchProducts() {
+        // Tìm kiếm
+        function searchAndGo() {
             const keyword = document.getElementById('searchInput').value.trim();
             if (keyword) {
                 window.location.href = `products.html?search=${encodeURIComponent(keyword)}`;
@@ -214,75 +330,54 @@
             }
         }
 
-        // Load Sản phẩm nổi bật
+        // Load sản phẩm nổi bật (Supabase)
         async function loadFeaturedProducts() {
             try {
                 const { data, error } = await supabase
                     .from('products')
                     .select('*, categories(name)')
                     .eq('is_available', true)
-                    .limit(8);   // lấy 8 sản phẩm nổi bật
+                    .limit(8);
 
                 if (error) throw error;
 
                 const grid = document.getElementById('featuredGrid');
-                grid.innerHTML = '';
-
-                data.forEach(p => {
-                    const priceHTML = p.price 
-                        ? Number(p.price).toLocaleString('vi-VN') + ' VNĐ' 
-                        : '<span style="color:#006400; font-weight:600;">Liên hệ</span>';
-
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <img src="${p.image_url || '/images/default-product.jpg'}" alt="${p.name}">
-                        <div class="product-info">
-                            <h3>${p.name}</h3>
-                            <p class="product-price">${priceHTML}</p>
-                            <button onclick="viewProductDetail('${p.id}')" class="btn-detail">Xem chi tiết</button>
+                grid.innerHTML = data.map(p => `
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow">
+                        <img src="${p.image_url || '/images/default-product.jpg'}" 
+                             class="w-full h-56 object-cover" alt="${p.name}">
+                        <div class="p-6">
+                            <h3 class="font-semibold text-lg mb-2 line-clamp-2">${p.name}</h3>
+                            <p class="text-emerald-600 font-bold">
+                                ${p.price ? Number(p.price).toLocaleString('vi-VN') + ' VNĐ' : 'Liên hệ'}
+                            </p>
+                            <button onclick="viewProductDetail('${p.id}')" 
+                                    class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-2xl text-sm font-medium transition">
+                                Xem chi tiết
+                            </button>
                         </div>
-                    `;
-                    grid.appendChild(card);
-                });
-
+                    </div>
+                `).join('');
             } catch (err) {
-                console.error("Lỗi load sản phẩm nổi bật:", err);
+                console.error("Lỗi load sản phẩm:", err);
             }
         }
 
-        // Chuyển sang trang products.html với ID sản phẩm
         function viewProductDetail(productId) {
             window.location.href = `products.html?product=${productId}`;
         }
 
-        // Khởi chạy
+        // Khởi tạo
         document.addEventListener('DOMContentLoaded', () => {
+            createSlides();
+            setInterval(nextSlide, 5000);
             loadFeaturedProducts();
         });
     </script>
 
+    <!-- Supabase & các script khác -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
     <script src="js/main.js"></script>
-        <!-- Mã QR - Web con -->
-    <div class="bg-white py-10 border-t">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-            <p class="text-gray-600 mb-4 text-base">Quét mã QR để truy cập website Trang Trại Xanh</p>
-            
-            <div class="inline-flex justify-center bg-white p-5 rounded-3xl shadow-md mx-auto">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://trangtraixanh.vn" 
-                     alt="QR Code Trang Trại Xanh" 
-                     class="w-52 h-52">
-            </div>
-            
-            <p class="mt-5 text-sm text-gray-500">
-                <a href="https://trangtraixanh.vn" target="_blank" 
-                   class="text-[#f06292] hover:underline font-medium">
-                    trangtraixanh.vn
-                </a>
-            </p>
-        </div>
-    </div>
 </body>
 </html>

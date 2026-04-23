@@ -3,88 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sản phẩm - Trang Trại Xanh</title>
+    <title>Sản phẩm - Trang Trại Xanh | Biofarm Energy</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-    <!-- Header với thanh tìm kiếm -->
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <img src="/images/logo.png" alt="Trang Trại Xanh">
-                <div>
-                    <span class="logo-text">Trang Trại Xanh</span><br>
-                    <small>BIOFARM ENERGY CO., LTD.</small>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        .product-card {
+            transition: all 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.75);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 1000px;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Logo -->
+                <div class="flex items-center gap-4">
+                    <img src="/images/logo.png" alt="Trang Trại Xanh" class="h-16 w-auto">
+                    <div>
+                        <span class="heading-font text-3xl font-bold tracking-tight text-emerald-700">TRANG TRẠI XANH</span>
+                        <p class="text-sm text-emerald-600 font-medium">BIOFARM ENERGY</p>
+                    </div>
                 </div>
-            </div>
-            <div class="company-info">
-                <strong>CÔNG TY TNHH TM DV KỸ THUẬT CHĂN NUÔI VÀ NĂNG LƯỢNG</strong><br>
-                <span class="highlight">SINH HỌC NÔNG NĂNG XANH</span>
-            </div>
-            
-            <!-- Thanh tìm kiếm -->
-            <div class="header-right">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." class="search-input">
-                    <button onclick="searchProducts()" class="search-btn">🔍</button>
+
+                <!-- Company Info -->
+                <div class="text-center md:text-left">
+                    <strong class="text-emerald-800 block">CÔNG TY TNHH TM DV KỸ THUẬT CHĂN NUÔI VÀ NĂNG LƯỢNG</strong>
+                    <span class="text-emerald-600 font-medium">SINH HỌC NÔNG NĂNG XANH</span>
+                </div>
+
+                <!-- Search -->
+                <div class="w-full md:w-96">
+                    <div class="relative">
+                        <input type="text" id="searchInput" 
+                               class="w-full pl-6 pr-14 py-4 border border-gray-300 rounded-full focus:outline-none focus:border-emerald-600 text-base"
+                               placeholder="Tìm kiếm sản phẩm...">
+                        <button onclick="searchProducts()" 
+                                class="absolute right-2 top-1/2 -translate-y-1/2 bg-emerald-600 text-white p-4 rounded-full hover:bg-emerald-700 transition">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="index.html">TRANG CHỦ</a></li>
-                <li><a href="products.html">SẢN PHẨM</a></li>
-                <li><a href="index.html#about">VỀ CHÚNG TÔI</a></li>
-                <li><a href="index.html#contact">LIÊN HỆ</a></li>
+    <nav class="bg-emerald-700 text-white py-4">
+        <div class="max-w-7xl mx-auto px-6">
+            <ul class="flex flex-wrap justify-center gap-x-10 gap-y-2 text-sm font-medium">
+                <li><a href="index.html" class="hover:text-emerald-200 transition">TRANG CHỦ</a></li>
+                <li><a href="products.html" class="text-white font-semibold">SẢN PHẨM</a></li>
+                <li><a href="index.html#about" class="hover:text-emerald-200 transition">VỀ CHÚNG TÔI</a></li>
+                <li><a href="index.html#contact" class="hover:text-emerald-200 transition">LIÊN HỆ</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Danh sách sản phẩm -->
-    <section class="section">
-        <div class="container">
-            <h2>DANH MỤC SẢN PHẨM</h2>
-            <div id="productGrid" class="product-grid"></div>
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="heading-font text-4xl font-bold text-center mb-12 text-emerald-800">DANH MỤC SẢN PHẨM</h2>
+            <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
         </div>
     </section>
 
     <!-- Modal Xem Chi Tiết -->
     <div id="productModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">×</span>
+            <span class="close-modal absolute top-6 right-6 text-4xl text-gray-400 hover:text-gray-600 cursor-pointer z-10" 
+                  onclick="closeModal()">×</span>
             
             <div class="modal-body">
                 <!-- Ảnh bên trái -->
                 <div class="modal-image">
-                    <img id="modalImage" src="" alt="Ảnh sản phẩm">
+                    <img id="modalImage" src="" alt="Ảnh sản phẩm" 
+                         class="w-full rounded-2xl shadow-md">
                 </div>
                 
                 <!-- Nội dung bên phải -->
-                <div class="modal-info">
-                    <h2 id="modalName"></h2>
-                    <p id="modalCategory" class="modal-category"></p>
-                    <p id="modalPrice" class="modal-price"></p>
-                    <p id="modalDescription" class="modal-desc"></p>
+                <div class="modal-info space-y-6">
+                    <div>
+                        <h2 id="modalName" class="text-3xl font-semibold text-emerald-800"></h2>
+                        <p id="modalCategory" class="text-emerald-600 font-medium mt-1"></p>
+                    </div>
                     
-                    <!-- Nút Liên hệ mở Zalo -->
-                    <a href="https://zalo.me/0987042718" target="_blank" class="btn-contact-modal">
-                        <i class="fas fa-comments"></i> Liên hệ ngay qua Zalo
+                    <p id="modalPrice" class="text-4xl font-bold text-emerald-700"></p>
+                    
+                    <div id="modalDescription" class="text-gray-600 leading-relaxed text-[15.5px]"></div>
+                    
+                    <!-- Nút Liên hệ -->
+                    <a href="https://zalo.me/0987042718" target="_blank" 
+                       class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center py-5 rounded-2xl font-semibold text-lg transition flex items-center justify-center gap-3">
+                        <i class="fas fa-comments"></i> 
+                        Liên hệ ngay qua Zalo
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <script>
+        // Tailwind config (nếu cần)
+        tailwind.config = { content: [] };
+
+        // Hàm mở modal
+        function openModal(product) {
+            document.getElementById('modalImage').src = product.image_url || '/images/default-product.jpg';
+            document.getElementById('modalName').textContent = product.name;
+            document.getElementById('modalCategory').textContent = product.categories?.name || 'Sản phẩm';
+            document.getElementById('modalPrice').textContent = 
+                product.price ? Number(product.price).toLocaleString('vi-VN') + ' VNĐ' : 'Liên hệ';
+            document.getElementById('modalDescription').innerHTML = product.description || 'Chưa có mô tả chi tiết.';
+            
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        // Tìm kiếm
+        function searchProducts() {
+            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+            const cards = document.querySelectorAll('.product-card');
+            
+            cards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = name.includes(keyword) ? 'block' : 'none';
+            });
+        }
+
+        // Load sản phẩm từ Supabase (giả sử bạn có file js/products.js)
+        async function loadProducts() {
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*, categories(name)')
+                    .eq('is_available', true);
+
+                if (error) throw error;
+
+                const grid = document.getElementById('productGrid');
+                grid.innerHTML = data.map(p => `
+                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow cursor-pointer" onclick="openModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
+                        <img src="${p.image_url || '/images/default-product.jpg'}" 
+                             class="w-full h-60 object-cover" alt="${p.name}">
+                        <div class="p-6">
+                            <h3 class="font-semibold text-lg line-clamp-2 mb-3">${p.name}</h3>
+                            <p class="text-emerald-600 font-bold text-xl">
+                                ${p.price ? Number(p.price).toLocaleString('vi-VN') + ' VNĐ' : 'Liên hệ'}
+                            </p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error("Lỗi tải sản phẩm:", err);
+                document.getElementById('productGrid').innerHTML = `
+                    <p class="col-span-full text-center py-12 text-red-500">Không thể tải danh sách sản phẩm. Vui lòng thử lại sau.</p>
+                `;
+            }
+        }
+
+        // Khởi tạo khi trang load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            
+            // Đóng modal khi click ngoài
+            const modal = document.getElementById('productModal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeModal();
+            });
+        });
+    </script>
+
+    <!-- Supabase scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
     <script src="js/products.js"></script>
-
 </body>
 </html>
