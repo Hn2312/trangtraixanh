@@ -188,36 +188,47 @@
             });
         }
 
-        // Load sản phẩm từ Supabase (giả sử bạn có file js/products.js)
-        async function loadProducts() {
-            try {
-                const { data, error } = await supabase
-                    .from('products')
-                    .select('*, categories(name)')
-                    .eq('is_available', true);
+        // Load sản phẩm từ Supabase
+async function loadProducts() {
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*, categories(name)')
+            .eq('is_available', true);
 
-                if (error) throw error;
+        if (error) throw error;
 
-                const grid = document.getElementById('productGrid');
-                grid.innerHTML = data.map(p => `
-                    <div class="product-card bg-white rounded-3xl overflow-hidden shadow cursor-pointer" onclick="openModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
-                        <img src="${p.image_url || '/images/default-product.jpg'}" 
-                             class="w-full h-60 object-cover" alt="${p.name}">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-lg line-clamp-2 mb-3">${p.name}</h3>
-                            <p class="text-emerald-600 font-bold text-xl">
-                                ${p.price ? Number(p.price).toLocaleString('vi-VN') + ' VNĐ' : 'Liên hệ'}
-                            </p>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (err) {
-                console.error("Lỗi tải sản phẩm:", err);
-                document.getElementById('productGrid').innerHTML = `
-                    <p class="col-span-full text-center py-12 text-red-500">Không thể tải danh sách sản phẩm. Vui lòng thử lại sau.</p>
-                `;
-            }
-        }
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = data.map(p => `
+            <div class="product-card bg-white rounded-3xl overflow-hidden shadow group">
+                <div class="relative">
+                    <img src="${p.image_url || '/images/default-product.jpg'}" 
+                         class="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105" 
+                         alt="${p.name}">
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="font-semibold text-lg line-clamp-2 mb-3 text-gray-800">${p.name}</h3>
+                    <p class="text-emerald-600 font-bold text-xl mb-5">
+                        ${p.price ? Number(p.price).toLocaleString('vi-VN') + ' VNĐ' : 'Liên hệ'}
+                    </p>
+                    
+                    <!-- Nút Xem chi tiết -->
+                    <button onclick="event.stopImmediatePropagation(); openModal(${JSON.stringify(p).replace(/"/g, '&quot;')})" 
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-eye"></i>
+                        Xem chi tiết
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error("Lỗi tải sản phẩm:", err);
+        document.getElementById('productGrid').innerHTML = `
+            <p class="col-span-full text-center py-12 text-red-500">Không thể tải danh sách sản phẩm. Vui lòng thử lại sau.</p>
+        `;
+    }
+}
 
         // Khởi tạo khi trang load
         document.addEventListener('DOMContentLoaded', () => {
